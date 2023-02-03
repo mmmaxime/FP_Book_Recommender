@@ -1,79 +1,94 @@
 # Iron Hack Final Project: Book Recommender
-This project aims to determine whether there has been a change in heat consumption and power consumption for government buildings between the years 2018, 2019, 2020. Conducted an Anova Hypothesis Test for both heat and power to consumption whether such change took place. Here is my Tableau link for my presentation: https://public.tableau.com/app/profile/maxime.favreau/viz/MidtermProject_16729345172430/References?publish=yes
+This project aims to run a book recommender based on the inputted book title and outputs 3 book title recommendations, its respective authors, genres, and book covers. This data was accumulated through two Kaggle datasets, and web-scraping using selenium. 
 
-Motivation
-Decided to further enquire on this topic as when the Covid-19 pandemic hit us in 2020, most of us were forced to confine and work in our homes. Which ultimately let to an increase in prices for heat, power, water, and even internet. Schools, museums, and stadiums were closed for several months until late 2020, which let me to wonder whether these government buildings' consumption had been affected, as much as the general population's definitely was.
+## Motivation
+Decided to further enquire on this topic, as before the Iron Hack Data Analytics Bootcamp my friends and I were organising a book club and since being in the bootcamp I haven't been able to enjoy said books. Now that the Bootcamp is over, I would be very much interested in restarting this book club and receiving recommendations based on titles and genres of books we previously liked.  
 
-Build Status
-The code for this Jupyter Notebook is divided into parts:
+## Build Status
+The code for this Jupyter Notebook is divided into parts: 
+  - __Data Cleaning:__ Divided into different book databases, then ultimately concatenating the data with columns: title, author, year_published, isbn,    image_link, genre, description, publisher, page_count and rating.
+  - __Analysis/Recommender:__ Used the CountVectorizer recommender/model to analyse, cluster, and recommend books based on the user inputing a book title.
+  - A large part of the book has repearted code
 
-Data Cleaning: Divided in districts and years
-Analysis: Divided by binning the data into different categories, and Anova Hypothesis testing
-Most of the code is repeated
-Code Style
-Used both the Python 3 code style and SQL in my Jupyter Notebook.
+## Code Style
+Used the Python 3 code in my Jupyter Notebook.
 
-Screenhots
-Screen Shot 2023-01-08 at 2 36 20 PM Screen Shot 2023-01-08 at 2 36 05 PM Screen Shot 2023-01-08 at 2 35 44 PM
+## Screenhots
+![Screen Shot 2023-02-03 at 3 58 25 PM](https://user-images.githubusercontent.com/117981133/216635192-9e74001c-fca9-4a88-a20d-6aa9c48a7b32.png)
+![Screen Shot 2023-02-03 at 4 01 59 PM](https://user-images.githubusercontent.com/117981133/216636080-24acca1b-ed76-4fa7-a2f7-a3c42e013907.png)
+![Screen Shot 2023-02-03 at 4 02 46 PM](https://user-images.githubusercontent.com/117981133/216636282-25bb0e4d-6587-473a-afa1-a71c20431419.png)
 
-Tech/Framework used
-I used Python, SQL and ran the following librairies to help execute the code:
 
+## Tech/Framework used
+I used Python, and ran the following librairies to help execute the code:
+import time
+import requests
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
-import pymysql
-from sqlalchemy import create_engine
-from sqlalchemy import MetaData
-import pandas as pd
-Features
-Feature that I would consider that stands out is running the Anova Hypothesis test in the Notebook. I also ran a long function to categorize the building types into separated bins.
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import CountVectorizer
+import matplotlib.pyplot as plt
+import imageio
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.keys import Keys
+import time
+import requests
+from bs4 import BeautifulSoup as bs4
 
-Code Examples
-"p2018['heat_supply']= p2018['heat_supply'].fillna('Gas')"
+## Features
+The features that were the main focus for the book recommender are: title, author, rating, genre, description, isbn, publisher, year_published, page_count, and image_link. 
 
-This code helps fill all NaN values in a specific column in the database to 'Gas'.
-"z2019.drop(index=z2019.index[:3], axis=0, inplace=True)"
+## Code Examples
+-*%%time
+bookdata = final_data.drop(['isbn','year_published','page_count','description'],axis=1)
+bookdata['data'] = bookdata[bookdata.columns[1:]].apply(
+    lambda x: ' '.join(x.dropna().astype(str)),
+    axis=1
+- )*
+- *print(bookdata['data'].head())*
 
-This code drops the first 3 rows in a dataset.
-Installation
-I needed to install sqlalchemy from Anaconda-Navigator to run the SQL schema for this project. Otherwise the softwares Jupyter Notebook and MySQL Workbench were already installed on my computer. In Anaconda-Navigator you can find SQLalchemy in the "Environment" tab(on the left hand side, below "Home"), and either search for "SQLalchemy" or filter for "Not Installed".
+## Installation
+I already had Jupyter Notebook installed through my Anaconda Navigator, but I had to "pip install ChromeDriverManager" and "pip install selenium.webdriver" for the web-scraping. 
 
-API reference
-Didn't use an API reference for this project as it was not required.
+## API reference
+Didn't use an API reference for this project as I used Selenium to web-scrape. 
 
-Tests
-Conducted an Anova Hypothesis Test to test whether the following is true:
+## Tests
+As previously mentioned, I used the CountVetorizer for my recommender/model. 
+- Here is an example of the code used to run the recommender:
 
-Null Hypothesis (H0): In the years 2018 , 2019, 2020 facility types in Berlin districts consume the same amount of heat/electricity.
+- *%%time
+-try:
+    -recommendations = pd.DataFrame(df.nlargest(4,input_title)['title'])
+    -recommendations = recommendations[recommendations['title']!=input_title]
+    -a = recommendations.index.values.tolist()
+    -print('Here are some fun recommendations for you:')
+    -display(pd.concat([recommendations,final_data.iloc[a][['author','genre']]],axis = 1))
+    -b = bookdata.iloc[a]['image_link'].values.tolist()
+    -for i in b:
+        -plt.imshow(imageio.imread(i))
+        -plt.show()*
+    
+-*except: 
+    -print("Sorry, I don't have any book recommendations. You should go for a walk instead!")*
 
-Alternative Hypothesis (H1): In the years 2018, 2019, 2020 facility types in Berlin districts consume different amounts of heat/electricity.
+## How to use?
+I would recommend first reading the _"Readme"_ before opening the .ipynb file. When going through the latter file, it is apparent to see how and why I decided to keep and delete certain values when cleaning the data. Upon the analysis, I further concatenated the data to later add to the recommender and to generate book suggestions. The whose process from scraping to recommending is broken up into 3 phases: Phase 1: Web-Scraping, Phase 2: Data Cleaning and EDA, and Phase 3: Recommender.
 
-Here is an example of the code:
+## Contribute
+You can contribute by opening the _"Readme"_ file, clicking on _"Edit"_ and leaving a comment at the bottom of the document with your github link and suggested comments. 
+Here is my github repository link: https://github.com/mmmaxime?tab=repositories
 
-_from scipy.stats import stats_
-
-_f_value_p, p_value_p = stats.f_oneway_(lsc_2018,lot_2018,lpl_2018,lsp_2018,lku_2018,lde_2018,lbu_2018,lwo_2018,lsc_2019,lot_2019,lpl_2019,lsp_2019,lku_2019,lbu_2019,lwo_2019,lsc_2020,lot_2020,lpl_2020,lsp_2020,lku_2020,lde_2020,lbu_2020,lwo_2020,psc_2018,pot_2018,ppl_2018,psp_2018,pku_2018,pde_2018,psc_2019,pot_2019,ppl_2019,psp_2019,pku_2019,pde_2019,psc_2020,pot_2020,ppl_2020,psp_2020,pku_2020,pde_2020,msc_2018,mot_2018,mpl_2018,msp_2018,mku_2018,mde_2018,mbu_2018,mwo_2018,msc_2019,mot_2019,mpl_2019,msp_2019,mku_2019,mde_2019,mbu_2019,mwo_2019,msc_2020,mot_2020,mpl_2020,msp_2020,mku_2020,mde_2020,mbu_2020,mwo_2020,zsc_2018,zot_2018,zpl_2018,zsp_2018,zku_2018,zde_2018,zbu_2018,zwo_2018,zsc_2019,zot_2019,zpl_2019,zsp_2019,zku_2019,zde_2019,zbu_2019,zwo_2019,zsc_2020,zot_2020,zpl_2020,zsp_2020,zku_2020,zde_2020,zbu_2020,zwo_2020,tsc_2018,tot_2018,tpl_2018,tsp_2018,tku_2018,tde_2018,tsc_2019,tot_2019,tpl_2019,tsp_2019,tku_2019,tde_2019,tsc_2020,tot_2020,tpl_2020,tsp_2020,tku_2020,tde_2020)
-
-_print(f_value_p, p_value_p)_
-
-P-value for heat: 0.12001258160006334
-P-value for electricity/power: 0.10143594256638956
-Results: We failed to reject the null hypothesis
-How to use?
-I would recommend first reading the "Readme" before opening the .ipynb file. When going through the latter file, it is apparent to see how and why I decided to keep and delete certain values when cleaning the data. Upon the analysis, I further bin/categorized the data to make it ease of use and to simplify the interpretenation on the different values of the code and facility type. Towards the end of the document, the reader will reach the Anova Hypothesis Test and ultimately the result.
-
-Contribute
-You can contribute by opening the "Readme" file, clicking on "Edit" and leaving a comment at the bottom of the document with your github link and suggested comments. Here is my github repository link: https://github.com/mmmaxime?tab=repositories
-
-Credits
+## Credits
 I used the following websites for datasets:
+- https://www.kaggle.com/datasets/thedevastator/comprehensive-overview-of-52478-goodreads-best-b
+- https://www.kaggle.com/datasets/dylanjcastillo/7k-books-with-metadata
+- https://www.barnesandnoble.com/b/books/_/N-1fZ29Z8q8
 
-https://www.berlin.de/suche/?site=full&q=Energieverbrauchs%C3%BCbersicht
-https://www.berlin.de/ba-mitte/ueber-den-bezirk/zahlen-und-fakten/energieverbrauch-bezirklicher-gebaeude/
-https://www.berlin.de/ba-pankow/suche.php?q=Energieverbrauch+bezirklicher+Geb%C3%A4ude
-https://www.berlin.de/ba-steglitz-zehlendorf/
-https://www.berlin.de/ba-treptow-koepenick/politik-und-verwaltung/service-und-organisationseinheiten/facility-management/energieverbrauchsuebersicht-bezirklicher-gebaeude-769059.php
-License
-Used Python 3 License.
+## License
+Used Python 3 License. 
