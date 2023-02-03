@@ -1,1 +1,1 @@
-# FP_Book_Recommender
+# Iron Hack Final Project: Book Recommender
