@@ -63,19 +63,19 @@ As previously mentioned, I used the CountVetorizer for my recommender/model.
 - Here is an example of the code used to run the recommender:
 
 - *%%time
--try:
-    -recommendations = pd.DataFrame(df.nlargest(4,input_title)['title'])
-    -recommendations = recommendations[recommendations['title']!=input_title]
-    -a = recommendations.index.values.tolist()
-    -print('Here are some fun recommendations for you:')
-    -display(pd.concat([recommendations,final_data.iloc[a][['author','genre']]],axis = 1))
-    -b = bookdata.iloc[a]['image_link'].values.tolist()
-    -for i in b:
-        -plt.imshow(imageio.imread(i))
-        -plt.show()*
+- try:
+    - recommendations = pd.DataFrame(df.nlargest(4,input_title)['title'])
+    - recommendations = recommendations[recommendations['title']!=input_title]
+    - a = recommendations.index.values.tolist()
+    - print('Here are some fun recommendations for you:')
+    - display(pd.concat([recommendations,final_data.iloc[a][['author','genre']]],axis = 1))
+    - b = bookdata.iloc[a]['image_link'].values.tolist()
+    - for i in b:
+        - plt.imshow(imageio.imread(i))
+        - plt.show()*
     
--*except: 
-    -print("Sorry, I don't have any book recommendations. You should go for a walk instead!")*
+- *except: 
+    - print("Sorry, I don't have any book recommendations. You should go for a walk instead!")*
 
 ## How to use?
 I would recommend first reading the _"Readme"_ before opening the .ipynb file. When going through the latter file, it is apparent to see how and why I decided to keep and delete certain values when cleaning the data. Upon the analysis, I further concatenated the data to later add to the recommender and to generate book suggestions. The whose process from scraping to recommending is broken up into 3 phases: Phase 1: Web-Scraping, Phase 2: Data Cleaning and EDA, and Phase 3: Recommender.
