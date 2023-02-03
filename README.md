@@ -44,11 +44,11 @@ from bs4 import BeautifulSoup as bs4
 The features that were the main focus for the book recommender are: title, author, rating, genre, description, isbn, publisher, year_published, page_count, and image_link. 
 
 ## Code Examples
--*%%time
-bookdata = final_data.drop(['isbn','year_published','page_count','description'],axis=1)
-bookdata['data'] = bookdata[bookdata.columns[1:]].apply(
-    lambda x: ' '.join(x.dropna().astype(str)),
-    axis=1
+- *%%time
+- *bookdata = final_data.drop(['isbn','year_published','page_count','description'],axis=1)
+- *bookdata['data'] = bookdata[bookdata.columns[1:]].apply(
+    - *lambda x: ' '.join(x.dropna().astype(str)),
+    - *axis=1
 - )*
 - *print(bookdata['data'].head())*
 
