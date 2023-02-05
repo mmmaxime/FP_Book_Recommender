@@ -1,12 +1,13 @@
 # Iron Hack Final Project: Book Recommender
-This project aims to run a book recommender based on the inputted book title and outputs 3 book title recommendations, its respective authors, genres, and book covers. This data was accumulated through two Kaggle datasets, and web-scraping using selenium. 
+This project aims to run a book recommender based on the inputted book title and outputs 3 book title recommendations, its respective authors, genres, and book covers. This data was accumulated through two Kaggle datasets, and web-scraping using [Selenium](https://selenium-python.readthedocs.io/) and [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/). Here is the link to my Google Slides  [presentation](https://docs.google.com/presentation/d/1DpB_7iD-pqaU0gNgE7iDsF7sMrAUeTNN147uk_t6Wqk/edit?usp=sharing). 
 
 ## Motivation
 Decided to further enquire on this topic, as before the Iron Hack Data Analytics Bootcamp my friends and I were organising a book club and since being in the bootcamp I haven't been able to enjoy said books. Now that the Bootcamp is over, I would be very much interested in restarting this book club and receiving recommendations based on titles and genres of books we previously liked.  
 
 ## Build Status
 The code for this Jupyter Notebook is divided into parts: 
-  - __Data Cleaning:__ Divided into different book databases, then ultimately concatenating the data with columns: title, author, year_published, isbn,    image_link, genre, description, publisher, page_count and rating.
+  - __Web Scraping:__ Web Scraping was done through the use of Selenium off of the Barnes & Noble website (link below), information such as title, author, year_published, isbn,    image_link, genre, description, publisher, page_count and rating were pulling and organized into a DataFrame. For the other 2 sets, they were pulled from the Kaggle website(links below).
+  - __Data Cleaning and EDA:__ Divided into different book databases, then ultimately concatenating the data with columns: title, author, year_published, isbn,    image_link, genre, description, publisher, page_count and rating.
   - __Analysis/Recommender:__ Used the CountVectorizer recommender/model to analyse, cluster, and recommend books based on the user inputing a book title.
   - A large part of the book has repearted code
 
@@ -82,13 +83,13 @@ I would recommend first reading the _"Readme"_ before opening the .ipynb file. W
 
 ## Contribute
 You can contribute by opening the _"Readme"_ file, clicking on _"Edit"_ and leaving a comment at the bottom of the document with your github link and suggested comments. 
-Here is my github repository link: https://github.com/mmmaxime?tab=repositories
+Here is my github repository [link](https://github.com/mmmaxime?tab=repositories)
 
 ## Credits
 I used the following websites for datasets:
-- https://www.kaggle.com/datasets/thedevastator/comprehensive-overview-of-52478-goodreads-best-b
-- https://www.kaggle.com/datasets/dylanjcastillo/7k-books-with-metadata
-- https://www.barnesandnoble.com/b/books/_/N-1fZ29Z8q8
+- [Kaggle Dataset 1](https://www.kaggle.com/datasets/thedevastator/comprehensive-overview-of-52478-goodreads-best-b)
+- [Kaggle Dataset 2](https://www.kaggle.com/datasets/dylanjcastillo/7k-books-with-metadata)
+- [Barnes & Noble Top 100 Bestseller's list](https://www.barnesandnoble.com/b/books/_/N-1fZ29Z8q8)
 
 ## License
 Used Python 3 License. 
